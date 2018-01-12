@@ -1,0 +1,23 @@
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 33.3%;"><%= link_to "My Shop", shop_index_path %></td>
+        <td style="width: 33.3%; text-align: center;"><h1>Welcome!</h1></td>
+        <td style="width: 33.3%; text-align: right">Balance : Rp. <%= @user[:available_balance] %></td>
+    </tr>
+</table>
+
+<table width=75% align=center>
+    <tr>
+        <% @items.each do |item| %>
+            <td style="text-align: center;">
+                <%= link_to shop_buy_path(price: item[:price], name: item[:name]) do %>
+                    <%= image_tag item[:image_url], height: "auto", width: "360px" %>
+                    <br>
+                    <strong><%= item[:name].humanize %></strong>
+                    <br>
+                    Rp. <%= item[:price] %>
+                <% end %>
+            </td>
+        <% end %>
+    </tr>
+</table>

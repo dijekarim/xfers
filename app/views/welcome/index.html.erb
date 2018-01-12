@@ -1,0 +1,17 @@
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 33.3%;"><%= link_to "My Shop", shop_index_path %></td>
+        <td style="width: 33.3%; text-align: center;"><h1>Welcome!</h1></td>
+        <td style="width: 33.3%; text-align: right">Balance : Rp. <%= @user[:available_balance] %></td>
+    </tr>
+</table>
+
+<p style="text-align: center;">
+    You have succesfully created your wallet
+    <br>
+    <br>
+    You can top up your wallet by transferring to the following bank:<br>
+    <b>Bank Name :</b> <%= @user[:bank_accounts].first["bank_abbrev"] %><br>
+    <b>Account number :</b> <%= @user[:bank_accounts].first["account_no"] %><br>
+    <b>Unique id :</b> <%= @user[:bank_accounts].first["id"] %><br>
+</p>
