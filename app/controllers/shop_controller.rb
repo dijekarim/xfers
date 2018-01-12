@@ -16,12 +16,22 @@ class ShopController < ApplicationController
   def buy
     ## create order id from timestamp format
     ## this must be unique every time clicked 
-    order_id = "ORD" + DateTime.now.to_time.to_i.to_s
+    order_id = "ORD" + sprintf("%05d", 100000)
 
     # Creating a charge
     begin
+      ## parse the latest order id and give it +1 
+      puts 'Listing all charges...'
+      params = {
+          'limit'=> '1'
+      }
+      charges = Xfers::Charge.list_all params
+      last_order_id =  charges[0][:order_id]
+      asd = last_order_id.scan(/([a-zA-Z]+)([0-9]+)/).flatten
+      order_id = asd[0] + (asd[1].to_i + 1).to_s
+
       charge = Xfers::Charge.create(
-                :amount => params[:price].to_s,
+                :amount => params[:price].to_f.to_s,
                 :currency => 'IDR',
                 :order_id => order_id,
                 :description => "Purchase #{params[:name].humanize}",
@@ -33,6 +43,7 @@ class ShopController < ApplicationController
       puts e.to_s
       redirect_to shop_index_path(alert: "#{e.to_s}".html_safe)
     rescue Exception => exc
+      flash[:notice] = "Failed to purchased!"
       redirect_to shop_index_path
     end
   end
