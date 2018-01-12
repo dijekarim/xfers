@@ -20,17 +20,19 @@ class ShopController < ApplicationController
 
     # Creating a charge
     begin
-      Xfers::Charge.create(
-        :amount => params[:price].to_s,
-        :currency => 'IDR',
-        :order_id => order_id,
-        :description => "Purchase #{params[:name].humanize}",
-        :debit_only => true
-      )
+      charge = Xfers::Charge.create(
+                :amount => params[:price].to_s,
+                :currency => 'IDR',
+                :order_id => order_id,
+                :description => "Purchase #{params[:name].humanize}",
+                :debit_only => true
+              )
 
       redirect_to shop_index_path(alert: "<strong>Purchased #{params[:name].humanize}!</strong>".html_safe )
     rescue Xfers::XfersError => e
       puts e.to_s
+      redirect_to shop_index_path(alert: "#{e.to_s}".html_safe)
+    rescue Exception => exc
       redirect_to shop_index_path
     end
   end
