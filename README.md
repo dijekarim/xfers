@@ -12,7 +12,23 @@ $ rvm install ruby-2.3.0
 $ bundle install
 ```
 
-3. Makesure the bundling success. Then run the server :
+3. Replace the database config on config/database.yml with your current db configuration:
+```YAML
+default: &default
+  adapter: postgresql # your db adapter postgresql, sqlite3, etc.
+  pool: 5
+  timeout: 5000
+  host: pg_94 # your db hostname localhost, mypostgres, etc
+  username: postgres # your postgres username default: postgres
+  password: postgres # your postgres password default: postgres
+```
+
+4. run db create, this actually doesn't use any db. But just need db to work on heroku(still googling to solve it! ;) ):
+```bash
+$ rake db:create
+```
+
+5. Makesure the bundling success. Then run the server :
 ```bash
 $ rails s
 => Booting WEBrick
@@ -24,6 +40,6 @@ $ rails s
 [2018-01-12 09:24:26] INFO  WEBrick::HTTPServer#start: pid=2397 port=3000
 ```
 
-4. Goto your browser and type http://localhost:3000
+6. Goto your browser and type http://localhost:3000
 
-5. That's it. Simple Right!
+7. That's it. Simple Right!
